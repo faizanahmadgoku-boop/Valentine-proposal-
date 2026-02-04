@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Proposal</title>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    text-align: center;
+    color: white;
+  }
+
+  .container {
+    position: relative;
+    top: 20vh;
+  }
+
+  h1 {
+    font-size: 3em;
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  #countdown {
+    font-size: 2em;
+    margin: 20px;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 12px 25px;
+    margin: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #yes {
+    background-color: #ff2e63;
+    color: white;
+  }
+
+  #yes:hover {
+    transform: scale(1.1);
+  }
+
+  #no {
+    background-color: #333;
+    color: white;
+    position: absolute;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    color: rgba(255,255,255,0.7);
+    font-size: 20px;
+    animation: float 6s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Will you be my Valentine? ❤️</h1>
+  <div id="countdown">Loading countdown…</div>
+  <button id="yes" onclick="accepted()">Yes</button>
+  <button id="no" onmouseover="moveButton()">No</button>
+</div>
+
+<!-- Background Music -->
+<audio id="music" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=romantic-background-112191.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* Countdown to Valentine’s Day */
+const targetDate = new Date("Feb 14, 2026 00:00:00").getTime();
+
+const countdown = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  document.getElementById("countdown").innerHTML =
+    `${days}d ${hours}h ${minutes}m ${seconds}s until Valentine’s Day`;
+
+  if (distance < 0) {
+    clearInterval(countdown);
+    document.getElementById("countdown").innerHTML =
+      "It’s Valentine’s Day! ❤️";
+  }
+}, 1000);
+
+/* Yes button */
+function accepted() {
+  document.body.innerHTML =
+    "<h1 style='margin-top:40vh;'>Yay! You just made me the happiest person ❤️</h1>";
+}
+
+/* Moving No button */
+function moveButton() {
+  const button = document.getElementById("no");
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+
+  button.style.left = x + "px";
+  button.style.top = y + "px";
+}
+
+/* Floating hearts generator */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
